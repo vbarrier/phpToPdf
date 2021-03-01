@@ -1,0 +1,11 @@
+{{ include('title.html') }}
+<p>
+    Je soussigné <span class="dynamic">{{ ofUserName }}</span>, représentant légal de l’organisme de formation <span class="dynamic">{{ ofName }}</span>, atteste que <span class="dynamic">{{ traineeName }}</span>, a bien suivi l’action de formation
+    <span class="dynamic">{{ trainingName }} : </span>
+</p>
+<ul>
+    <li>qui s’est déroulée sur la période du <span class="dynamic">{{ trainingStartDate }}</span> au <span class="dynamic">{{ trainingEndDate }},</span></li>
+    <li>avec une durée de <span class="dynamic">{{ trainingDuration }}</span> heures.</li>
+</ul>
+
+{{ include('signature.html') }}
