@@ -1,4 +1,5 @@
 <style>
+    /* Generic */
     @page {
         margin: 100px;
     }
@@ -25,7 +26,7 @@
         font-size: 14px;
         line-height: 14px;
     }
-    b, strong {
+    b, strong, h1, h2, h3, h4, h5, h6, th {
         font-family: poppins-bold, sans-serif;
     }
     i, em {
@@ -37,25 +38,22 @@
         margin-bottom: 150px;
         text-transform: uppercase;
     }
-    h1, h2, h3, h4, h5, h6 {
-        font-family: poppins-bold, sans-serif;
-    }
     .signature {
         margin-top: 150px;
         float: right;
     }
-    .dynamic {
+    .dynamic-data {
         font-family: poppins-bold, sans-serif;
-    }
-    .logo {
-        width: 150px;
-    }
-    .documentTitle {
-        font-size: 12px;
-        float: right;
     }
     .header {
         margin-top: -45px;
+    }
+    .header .logo {
+        width: 150px;
+    }
+    .header .documentTitle {
+        font-size: 12px;
+        float: right;
     }
     .footer {
         font-size: 11px;
@@ -67,68 +65,109 @@
         right: 0;
         height: 50px;
     }
+    /* Utilities */
     .uppercase {
         text-transform: uppercase;
     }
-    table.emargement {
+    .font-weight-normal {
+        font-weight: normal;
+        font-family: poppins-regular, sans-serif;
+    }
+    .text-align-left {
+        text-align: left;
+    }
+    .text-align-center {
+        text-align: center;
+    }
+    .text-align-right {
+        text-align: right;
+    }
+    /* Document specific */
+    .emargement-document .header .documentTitle {
+        font-family: poppins-bold, sans-serif;
+        font-size: 14px;
+        line-height: 14px;
+        text-transform: uppercase;
+        float: right;
+        color: #3439E4;
+    }
+    .emargement-document table.emargement {
         font-size: 12px;
+        line-height: 12px;
         border-collapse: collapse;
     }
-    table.emargement  th, table.emargement  td {
+    .emargement-document table.emargement th, .emargement-document table.emargement td {
         padding: 10px;
-        height: 17px;
+        height: 18px;
     }
-    table.emargement  th {
+    .emargement-document table.emargement th {
         border: 1px solid #8c8c8c;
         border-bottom: 2px solid #8c8c8c;
         background: #c1c1c1;
     }
-    table.emargement  td {
+    .emargement-document table.emargement td {
         border: 1px solid #e5e5e5;
     }
-    table.emargement .attribute-title {
-        width: 50px;
-    }
-    table.emargement .attribute-value {
-        width: 190px;
-    }
-    table.emargement  th.clean {
+    .emargement-document table.emargement th.clean {
         border: none;
         background: white;
     }
-    table.emargement  th.light {
+    .emargement-document table.emargement th.light {
         border: 1px solid #b4b4b4;
         background: #d6d6d6;
     }
-    table.emargement  .table-category-name {
+    .emargement-document table.emargement .subtitle {
         text-transform: uppercase;
     }
-    table.emargement  .table-category-text {
+    .emargement-document table.emargement .subtitle-caption{
         font-weight: normal;
         font-family: poppins-regular, sans-serif;
         font-size: 10px;
     }
-    table.emargement  .label {
-        text-align: left;
+    .emargement-document table.emargement .border-right {
         border-right: 2px solid #C0C0C0 !important;
     }
-    table.emargement  .border-bottom {
+    .emargement-document table.emargement .border-bottom {
         border-bottom: 2px solid #C0C0C0 !important;
     }
-    table.emargement .first-column {
+    .emargement-document table.emargement .border-top {
+        border-top: 2px solid #C0C0C0 !important;
+    }
+    .emargement-document table.emargement .border-left {
+        border-left: 2px solid #C0C0C0 !important;
+    }
+    .emargement-document table.emargement .first-column {
         width: 185px;
     }
-    table.emargement .column {
+    .emargement-document table.emargement .blank {
+        background: none;
+    }
+    .emargement-document table.emargement .date-column {
         width: 68px;
         font-size: 10px;
+        line-height: 10px;
     }
-    table.emargement tbody tr:nth-of-type(even) {
+    .emargement-document table.emargement tbody tr:nth-of-type(even) {
         background-color: #f2f2f2;
     }
-    table.emargement tbody tr:last-of-type td {
+    .emargement-document table.emargement tbody tr:last-of-type td {
         border-bottom: 1px solid #b4b4b4;
     }
-    table.emargement tbody tr td:last-of-type {
+    .emargement-document table.emargement tbody tr td:last-of-type {
         border-right: 1px solid #b4b4b4;
+    }
+    .emargement-document table.no-style {
+        width: 918px;
+    }
+    .emargement-document table.no-style th {
+        font-size: 14px;
+        line-height: 14px;
+    }
+    .emargement-document table.no-style td {
+        font-size: 12px;
+        line-height: 12px;
+    }
+    .emargement-document table.no-style, table.no-style td, table.no-style th {
+        border: none;
     }
 </style>

@@ -1,17 +1,14 @@
-<table class="emargement" style="margin-top: 25px;">
+<table class="no-style" style="margin-top: 10px; margin-bottom: 13px;">
     <thead>
     <tr>
-        <th colspan=6">{{ documentTitle }} - {{ trainingName }}</th>
+        <th colspan=6">{{ trainingName }}</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <th class="light label attribute-name">Période</th>
-        <td class="attribute-value">{{ trainingStartDate }} au {{ trainingEndDate }}</td>
-        <th class="light label attribute-name">Durée</th>
-        <td class="attribute-value">{{ trainingDuration }} heures sur {{ trainingDays }} jour(s)</td>
-        <th class="light label attribute-name">Lieu</th>
-        <td class="attribute-value">{{ trainingLocation }}</td>
+        <td colspan="2" class="text-align-left">Période : {{ trainingStartDate }} au {{ trainingEndDate }}</td>
+        <td colspan="2" class="text-align-center">Lieu : {{ trainingLocation }}</td>
+        <td colspan="2" class="text-align-right">Durée : {{ trainingDuration }} heures sur {{ trainingDays }} jour{{ trainingDays > 1 ? 's' : '' }} </td>
     </tr>
     <tbody>
 </table>
@@ -19,28 +16,33 @@
 <table class="emargement">
     <thead>
     <tr>
-        <th class="first-column uppercase">Nom</th>
+        <th class="first-column">&nbsp;</th>
         {% for i in range(0, nbPeriodPerPage - 1) %}
-            <th class="column">
+            <th class="date-column">
                 {% if trainingPeriods|length > i %}
                     <div>{{ trainingPeriods[i].date }}</div>
                     <div>{{ trainingPeriods[i].startHour }} à {{ trainingPeriods[i].endHour }}</div>
-                    <div>{{ trainingPeriods[i].duration }} heures</div>
+                    <div>{{ trainingPeriods[i].duration }}h</div>
                 {% endif %}
             </th>
         {% endfor %}
         </th>
     </tr>
     <tr>
-        <th class="light border-bottom" colspan="9">
-            <span class="table-category-name">Participants</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="table-category-text">Par ma signature, j'atteste avoir participé à la formation ci-dessus</span>
+        <th class="light border-right border-bottom uppercase">
+            Nom
+        </th>
+        <th class="light border-bottom" colspan="8">
+            <span class="subtitle">Participants</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="subtitle-caption">Par ma signature, j'atteste avoir participé à la formation ci-dessus</span>
         </th>
     </tr>
     </thead>
     <tbody>
     {% for j in range(0, nbTraineePerPage - 1) %}
         <tr>
-            <th class="light label">{{ trainees[j]['firstName'] }} {{ trainees[j]['lastName'] }}</th>
+            <th class="light border-right text-align-left font-weight-normal">
+                {{ trainees[j]['firstName'] }} {{ trainees[j]['lastName'] }}
+            </th>
             {% for i in range(0, nbPeriodPerPage - 1) %}
                 <td></td>
             {% endfor %}
@@ -49,12 +51,19 @@
     </tbody>
     <tbody>
     <tr>
-        <th class="light border-bottom" colspan="9">
-            <span class="table-category-name">Formateur</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="table-category-text">Par ma signature, j'atteste avoir dispensé la formation ci-dessus</span>
+        <th class="light border-bottom border-top border-right uppercase">
+            Nom
+        </th>
+        <th class="light border-bottom border-top" colspan="8">
+            <span class="subtitle">Formateur</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="subtitle-caption">Par ma signature, j'atteste avoir dispensé la formation ci-dessus</span>
         </th>
     </tr>
+    </tbody>
+    <tbody>
     <tr>
-        <th class="light label">{{ trainer['firstName'] }} {{ trainer['lastName'] }}</th>
+        <th class="light border-right text-align-left font-weight-normal">
+            {{ trainer['firstName'] }} {{ trainer['lastName'] }}
+        </th>
         {% for i in range(0, nbPeriodPerPage - 1) %}
             <td></td>
         {% endfor %}

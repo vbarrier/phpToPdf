@@ -155,7 +155,8 @@ function generatePdfAssiduite($twig, $dompdf)
     $templates = [
         'headerTemplate' => 'header.twig',
         'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-assiduite.twig'
+        'bodyTemplate' => 'doc-assiduite.twig',
+        'documentType' => 'assiduite'
     ];
     $html = getHtml($twig, $templates, $data);
 //    echo $html;
@@ -168,7 +169,8 @@ function generatePdfEmargement($twig, $dompdf)
     $templates = [
         'headerTemplate' => 'header.twig',
         'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-emargement.twig'
+        'bodyTemplate' => 'doc-emargement.twig',
+        'documentType' => 'emargement'
     ];
     $html = getHtml($twig, $templates, $data);
 //    echo $html;
