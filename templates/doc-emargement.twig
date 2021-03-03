@@ -29,10 +29,10 @@
         </th>
     </tr>
     <tr>
-        <th class="light border-right border-bottom uppercase">
+        <th class="light uppercase">
             Nom
         </th>
-        <th class="light border-bottom" colspan="8">
+        <th class="light" colspan="8">
             <span class="subtitle">Participants</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="subtitle-caption">Par ma signature, j'atteste avoir participé à la formation ci-dessus</span>
         </th>
     </tr>
@@ -40,7 +40,7 @@
     <tbody>
     {% for j in range(0, nbTraineePerPage - 1) %}
         <tr>
-            <th class="light border-right text-align-left font-weight-normal">
+            <th class="light text-align-left font-weight-normal">
                 {{ trainees[j]['firstName'] }} {{ trainees[j]['lastName'] }}
             </th>
             {% for i in range(0, nbPeriodPerPage - 1) %}
@@ -51,17 +51,17 @@
     </tbody>
     <tbody>
     <tr>
-        <th class="light border-bottom border-top border-right uppercase">
+        <th class="light uppercase">
             Nom
         </th>
-        <th class="light border-bottom border-top" colspan="8">
+        <th class="light" colspan="8">
             <span class="subtitle">Formateur</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="subtitle-caption">Par ma signature, j'atteste avoir dispensé la formation ci-dessus</span>
         </th>
     </tr>
     </tbody>
     <tbody>
     <tr>
-        <th class="light border-right text-align-left font-weight-normal">
+        <th class="light text-align-left font-weight-normal">
             {{ trainer['firstName'] }} {{ trainer['lastName'] }}
         </th>
         {% for i in range(0, nbPeriodPerPage - 1) %}

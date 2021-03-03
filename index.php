@@ -53,7 +53,7 @@ function getDetailedPeriod(array $period): array
 function validatePeriods(array $periods)
 {
     $previousPeriod = null;
-    $validatePeriod = function($period) use (&$previousPeriod) {
+    $validatePeriod = function ($period) use (&$previousPeriod) {
         $startTimestamp = $period['startDate'];
         if ($previousPeriod != null && $startTimestamp < $previousPeriod['endDate']) {
             throw new Exception('Error, a training period must start after the end of the previous one (start: ' . $startTimestamp . ', end: ' . $previousPeriod['endDate']);
