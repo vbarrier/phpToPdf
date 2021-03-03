@@ -1,0 +1,63 @@
+<table class="emargement" style="margin-top: 25px;">
+    <thead>
+    <tr>
+        <th colspan=6">{{ documentTitle }} - {{ trainingName }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th class="light label attribute-name">Période</th>
+        <td class="attribute-value">{{ trainingStartDate }} au {{ trainingEndDate }}</td>
+        <th class="light label attribute-name">Durée</th>
+        <td class="attribute-value">{{ trainingDuration }} heures sur {{ trainingDays }} jour(s)</td>
+        <th class="light label attribute-name">Lieu</th>
+        <td class="attribute-value">{{ trainingLocation }}</td>
+    </tr>
+    <tbody>
+</table>
+
+<table class="emargement">
+    <thead>
+    <tr>
+        <th class="first-column uppercase">Nom</th>
+        {% for i in range(0, nbPeriodPerPage - 1) %}
+            <th class="column">
+                {% if trainingPeriods|length > i %}
+                    <div>{{ trainingPeriods[i].date }}</div>
+                    <div>{{ trainingPeriods[i].startHour }} à {{ trainingPeriods[i].endHour }}</div>
+                    <div>{{ trainingPeriods[i].duration }} heures</div>
+                {% endif %}
+            </th>
+        {% endfor %}
+        </th>
+    </tr>
+    <tr>
+        <th class="light border-bottom" colspan="9">
+            <span class="table-category-name">Participants</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="table-category-text">Par ma signature, j'atteste avoir participé à la formation ci-dessus</span>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for j in range(0, nbTraineePerPage - 1) %}
+        <tr>
+            <th class="light label">{{ trainees[j]['firstName'] }} {{ trainees[j]['lastName'] }}</th>
+            {% for i in range(0, nbPeriodPerPage - 1) %}
+                <td></td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tbody>
+    <tr>
+        <th class="light border-bottom" colspan="9">
+            <span class="table-category-name">Formateur</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="table-category-text">Par ma signature, j'atteste avoir dispensé la formation ci-dessus</span>
+        </th>
+    </tr>
+    <tr>
+        <th class="light label">{{ trainer['firstName'] }} {{ trainer['lastName'] }}</th>
+        {% for i in range(0, nbPeriodPerPage - 1) %}
+            <td></td>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
