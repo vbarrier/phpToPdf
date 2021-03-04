@@ -4,8 +4,10 @@
     {{ include('css.twig') }}
 </head>
 <body class="{{ documentType }}-document">
-{{ include(headerTemplate) }}
-{{ include(bodyTemplate) }}
-{{ include(footerTemplate) }}
+{% for pageData in pagesData %}
+    {{ include(pageData.headerTemplate) }}
+    {{ include(pageData.bodyTemplate) }}
+    {{ include(pageData.footerTemplate) }}
+{% endfor %}
 </body>
 </html>

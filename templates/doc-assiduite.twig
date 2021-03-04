@@ -1,11 +1,11 @@
 {{ include('title.twig') }}
 <p>
-    Je soussigné <span class="dynamic-data">{{ ofUserName }}</span>, représentant légal de l’organisme de formation <span class="dynamic-data">{{ ofName }}</span>, atteste que <span class="dynamic-data">{{ traineeName }}</span>, a bien suivi l’action de formation
-    <span class="dynamic-data">{{ trainingName }} : </span>
+    Je soussigné <span class="dynamic-data">{{ pageData.ofUserName }}</span>, représentant légal de l’organisme de formation <span class="dynamic-data">{{ pageData.ofName }}</span>, atteste que <span class="dynamic-data">{{ pageData.traineeName }}</span>, a bien suivi l’action de formation
+    <span class="dynamic-data">{{ pageData.trainingName }} : </span>
 </p>
 <ul>
-    <li>qui s’est déroulée sur la période du <span class="dynamic-data">{{ trainingStartDate }}</span> au <span class="dynamic-data">{{ trainingEndDate }},</span></li>
-    <li>avec une durée de <span class="dynamic-data">{{ trainingDuration }}</span> heures.</li>
+    <li>qui s’est déroulée sur la période du <span class="dynamic-data">{{ pageData.trainingStartDate }}</span> au <span class="dynamic-data">{{ pageData.trainingEndDate }},</span></li>
+    <li>avec une durée de <span class="dynamic-data">{{ pageData.trainingDuration }}</span> heures.</li>
 </ul>
 
 {{ include('signature.twig') }}

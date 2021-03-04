@@ -12,6 +12,9 @@ use Dompdf\Dompdf;
 function getDataAssiduite(): array
 {
     $data = [
+        'headerTemplate' => 'header.twig',
+        'footerTemplate' => 'footer.twig',
+        'bodyTemplate' => 'doc-assiduite.twig',
         'documentTitle' => "Attestation d'assiduité de formation",
         'ofUserName' => 'Vincent BARRIER',
         'ofName' => 'Kagilum',
@@ -23,7 +26,7 @@ function getDataAssiduite(): array
     ];
     $data['traineeName'] = $data['trainee']['firstName'] . ' ' . $data['trainee']['lastName'];
     $data['signatureDate'] = $data['trainingEndDate'];
-    return $data;
+    return [$data];
 }
 
 ///////////////
@@ -103,18 +106,23 @@ function getDataEmargement(): array
     sort($timestamps, SORT_NUMERIC);
     $uniqueDays = array_unique(array_map($getDayFromTimestamp, $timestamps));
     return [
-        'documentTitle' => "Feuille d'émargement",
-        'trainingName' => 'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
-        'trainingStartDate' => reset($uniqueDays),
-        'trainingEndDate' => end($uniqueDays),
-        'trainingDays' => count($uniqueDays),
-        'trainingDuration' => $trainingDuration,
-        'trainingLocation' => 'A distance',
-        'trainingPeriods' => $trainingPeriods,
-        'trainees' => $trainees,
-        'trainers' => $trainers,
-        'nbPeriodPerPage' => $MAX_PERIOD_PER_PAGE,
-        'nbTraineePerPage' => $nbTraineePerPage
+        [
+            'headerTemplate' => 'header.twig',
+            'footerTemplate' => 'footer.twig',
+            'bodyTemplate' => 'doc-emargement.twig',
+            'documentTitle' => "Feuille d'émargement",
+            'trainingName' => 'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
+            'trainingStartDate' => reset($uniqueDays),
+            'trainingEndDate' => end($uniqueDays),
+            'trainingDays' => count($uniqueDays),
+            'trainingDuration' => $trainingDuration,
+            'trainingLocation' => 'A distance',
+            'trainingPeriods' => $trainingPeriods,
+            'trainees' => $trainees,
+            'trainers' => $trainers,
+            'nbPeriodPerPage' => $MAX_PERIOD_PER_PAGE,
+            'nbTraineePerPage' => $nbTraineePerPage
+        ]
     ];
 }
 
@@ -136,9 +144,9 @@ function getTwig(): \Twig\Environment
     return $twig;
 }
 
-function getHtml(\Twig\Environment $twig, array $templates, array $data): string
+function getHtml(\Twig\Environment $twig, array $pagesData, string $documentType): string
 {
-    return $twig->render('index.twig', array_merge($data, $templates));
+    return $twig->render('index.twig', ['pagesData' => $pagesData, 'documentType' => $documentType]);
 }
 
 function generatePdf(Dompdf $dompdf, string $html, $orientation = 'portrait')
@@ -156,29 +164,17 @@ function generatePdf(Dompdf $dompdf, string $html, $orientation = 'portrait')
 
 function generatePdfAssiduite($twig, $dompdf)
 {
-    $data = getDataAssiduite();
-    $templates = [
-        'headerTemplate' => 'header.twig',
-        'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-assiduite.twig',
-        'documentType' => 'assiduite'
-    ];
-    $html = getHtml($twig, $templates, $data);
-//    echo $html;
+    $pagesData = getDataAssiduite();
+    $html = getHtml($twig, $pagesData, 'assiduite');
+    //    echo $html;
     generatePdf($dompdf, $html);
 }
 
 function generatePdfEmargement($twig, $dompdf)
 {
-    $data = getDataEmargement();
-    $templates = [
-        'headerTemplate' => 'header.twig',
-        'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-emargement.twig',
-        'documentType' => 'emargement'
-    ];
-    $html = getHtml($twig, $templates, $data);
-//    echo $html;
+    $pagesData = getDataEmargement();
+    $html = getHtml($twig, $pagesData, 'emargement');
+    //    echo $html;
     generatePdf($dompdf, $html, 'landscape');
 }
 
