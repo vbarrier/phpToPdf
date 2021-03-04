@@ -1,3 +1,8 @@
 <div class="footer">
     Kagilum SAS – Pôle formations Wensei – Capital social 9901€ – Agrément de formation 73310646031 – Siège social 8 impasse bonnet 31500 Toulouse – Tel 09.52.91.10.10 – Email formations@wensei.com – RCS Toulouse B 532222924 – TVA FR90532222924 – Code APE 6201Z
 </div>
+{% if loop.length > 1 %}
+<div class="page-count">
+    {{ loop.index }} / {{ loop.length }}
+</div>
+{% endif %}
