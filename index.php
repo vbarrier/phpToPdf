@@ -6,30 +6,78 @@ require_once 'lib/twig/autoload.inc.php';
 use Dompdf\Dompdf;
 
 ///////////////
-/// Data simulation Assiduite
+/// Dummy data
 ///////////////
 
-function getDataAssiduite(): array
+// TODO remove
+function getDummyTraining(): array {
+    return [
+        'days'=>['2021-02-15', '2021-02-16'],
+        'name'=>'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
+        'location'=>'À distance'
+    ];
+}
+
+// TODO remove
+function getDummyDataAssiduite(): array
 {
-    $data = [
-        'headerTemplate' => 'header.twig',
-        'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-assiduite.twig',
-        'documentTitle' => "Attestation d'assiduité de formation",
-        'ofUserName' => 'Vincent BARRIER',
-        'ofName' => 'Kagilum',
+    $dummyData = [
         'trainee' => ['firstName' => 'Jane', 'lastName' => 'Doe'],
         'trainingName' => 'Professionnel Scrum Certifié',
         'trainingStartDate' => '15/02/2021',
         'trainingEndDate' => '16/02/2021',
         'trainingDuration' => 14
     ];
-    $data['signatureDate'] = $data['trainingEndDate'];
+    $dummyData['signatureDate'] = $dummyData['trainingEndDate'];
+    return $dummyData;
+}
+
+// TODO remove
+// Example trainers: Min 1, Max 7
+function getDummyTrainers(): array
+{
+    return [
+        ['firstName' => 'Albert', 'lastName' => 'Einstein'],
+//        ['firstName' => 'Roberto', 'lastName' => 'Doe']
+    ];
+}
+
+// TODO remove
+// Example trainees: Min 1, no max
+function getDummyTrainees(): array
+{
+    return [
+        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
+        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
+        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
+        ['firstName' => 'Kesley', 'lastName' => 'George'],
+        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
+        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
+        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
+        ['firstName' => 'Kesley', 'lastName' => 'George'],
+    ];
+}
+
+///////////////
+/// Data generation Assiduite
+///////////////
+
+function getDataAssiduite(): array
+{
+    $dummyDataAssiduite = getDummyDataAssiduite(); // TODO plug in real data
+    $data = array_merge($dummyDataAssiduite, [
+        'headerTemplate' => 'header.twig',
+        'footerTemplate' => 'footer.twig',
+        'bodyTemplate' => 'doc-assiduite.twig',
+        'documentTitle' => "Attestation d'assiduité de formation",
+        'ofUserName' => 'Vincent BARRIER',
+        'ofName' => 'Kagilum'
+    ]);
     return [$data];
 }
 
 ///////////////
-/// Data simulation Emargement
+/// Data generation Emargement
 ///////////////
 
 function getDayNameFromTimestamp(int $timestamp): string
@@ -81,31 +129,6 @@ function validatePeriods(array $periods)
     array_map($validatePeriod, $periods);
 }
 
-// Example trainers. At least one is required, several accepted (up to 7)
-function getTrainers(): array
-{
-    return [
-        ['firstName' => 'Albert', 'lastName' => 'Einstein'],
-//        ['firstName' => 'Robert', 'lastName' => 'Hue']
-    ];
-}
-
-// Example raw periods
-function getRawTrainingPeriods(): array
-{
-    return [
-        ['startDate' => strtotime('2021-02-15 09:00:00'), 'endDate' => strtotime('2021-02-15 12:30:00')],
-        ['startDate' => strtotime('2021-02-15 13:30:00'), 'endDate' => strtotime('2021-02-15 17:00:00')],
-        ['startDate' => strtotime('2021-02-16 09:00:00'), 'endDate' => strtotime('2021-02-16 13:30:00')],
-        ['startDate' => strtotime('2021-02-16 13:30:00'), 'endDate' => strtotime('2021-02-16 16:00:00')],
-        ['startDate' => strtotime('2021-02-17 09:00:00'), 'endDate' => strtotime('2021-02-17 12:30:00')],
-        ['startDate' => strtotime('2021-02-17 13:30:00'), 'endDate' => strtotime('2021-02-17 17:00:00')],
-        ['startDate' => strtotime('2021-02-18 09:00:00'), 'endDate' => strtotime('2021-02-18 13:30:00')],
-        ['startDate' => strtotime('2021-02-18 13:30:00'), 'endDate' => strtotime('2021-02-18 16:00:00')],
-        ['startDate' => strtotime('2021-02-19 13:30:00'), 'endDate' => strtotime('2021-02-19 16:00:00')],
-    ];
-}
-
 // Create default periods from array of days in string ISO format (e.g. "2021-02-15")
 function getRawTrainingPeriodsFromIsoDays(array $isoDays): array
 {
@@ -115,20 +138,6 @@ function getRawTrainingPeriodsFromIsoDays(array $isoDays): array
         array_push($rawTrainingPeriods, ['startDate' => strtotime($isoDay . ' 13:30:00'), 'endDate' => strtotime($isoDay . ' 17:00:00')]);
     }
     return $rawTrainingPeriods;
-}
-
-// Example trainees: at least one, no limit
-function getTrainees(): array
-{
-    return [
-        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
-        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
-        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
-        ['firstName' => 'Kesley', 'lastName' => 'George'],        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
-        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
-        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
-        ['firstName' => 'Kesley', 'lastName' => 'George'],
-    ];
 }
 
 // Generate combinations from two arrays
@@ -143,16 +152,20 @@ function getCombinations(array $array1, array $array2): array
     return $result;
 }
 
+// Constants to allow proper page fit, do not change them
 define('MAX_PERIOD_PER_PAGE', 8);
 define('MAX_TRAINEE_PER_PAGE', 7);
 
 function getDataEmargement(): array
 {
-    $trainers = getTrainers();
+    // Dummy Data
+    $trainers = getDummyTrainers();  // TODO plug in real data
+    $trainees = getDummyTrainees();  // TODO plug in real data
+    $training = getDummyTraining(); // TODO plug in real data
+    // Processing
+    $rawTrainingPeriods = getRawTrainingPeriodsFromIsoDays($training['days']);
     $nbTraineePerPage = MAX_TRAINEE_PER_PAGE - count($trainers) + 1;
-    $rawTrainingPeriods = getRawTrainingPeriodsFromIsoDays(['2021-02-15', '2021-02-16']);
     validatePeriods($rawTrainingPeriods);
-    $trainees = getTrainees();
     $trainingPeriods = array_map('getDetailedPeriod', $rawTrainingPeriods);
     $timestamps = array_column($rawTrainingPeriods, 'startDate');
     sort($timestamps, SORT_NUMERIC);
@@ -162,15 +175,15 @@ function getDataEmargement(): array
         'footerTemplate' => 'footer.twig',
         'bodyTemplate' => 'doc-emargement.twig',
         'documentTitle' => "Feuille d'émargement",
-        'trainingName' => 'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
+        'trainingName' => $training['name'],
+        'trainingLocation' =>  $training['location'],
         'trainingStartDate' => reset($uniqueDays),
         'trainingEndDate' => end($uniqueDays),
         'trainingDays' => count($uniqueDays),
         'trainingDuration' => array_sum(array_column($trainingPeriods, 'duration')),
-        'trainingLocation' => 'A distance',
         'trainers' => $trainers,
         'nbPeriodPerPage' => MAX_PERIOD_PER_PAGE,
-        'nbTraineePerPage' => $nbTraineePerPage
+        'nbTraineePerPage' => $nbTraineePerPage,
     ];
     $traineesChunks = array_chunk($trainees, $nbTraineePerPage);
     $trainingPeriodChunks = array_chunk($trainingPeriods, MAX_PERIOD_PER_PAGE);
@@ -186,13 +199,14 @@ function getDataEmargement(): array
 }
 
 ///////////////
-/// Functions
+/// Main HTML & PDF functions
 ///////////////
 
 function getNewDompdfInstance(): Dompdf
 {
     $options = new \Dompdf\Options();
     $options->set('chroot', 'assets');
+//    $options->set('enable_html5_parser', true); // No difference for the tested use cases
     return new Dompdf($options);
 }
 
@@ -211,37 +225,40 @@ function getHtml(\Twig\Environment $twig, array $pagesData, string $documentType
 }
 
 // Accepted orientations : landscape / portrait
-function generatePdf(Dompdf $dompdf, string $html, $orientation = 'portrait')
+function generatePdf(string $html, string $documentType, $orientation = 'portrait')
 {
+    $dompdf = getNewDompdfInstance(); // Must be a fresh new instance each time (see https://github.com/dompdf/dompdf/issues/1056)
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', $orientation);
     $dompdf->render();
-    $dompdf->stream();
+    $output = $dompdf->output();
+    file_put_contents('target/' . $documentType . '-' . time() . '.pdf', $output); // time() to be pseudo "unique"
 }
 
 ///////////////
 /// Main
 ///////////////
 
-function generatePdfAssiduite($twig, $dompdf)
+function generatePdfAssiduite($twig)
 {
     $pagesData = getDataAssiduite();
-    $html = getHtml($twig, $pagesData, 'assiduite');
-    //    echo $html;
-    generatePdf($dompdf, $html);
+    $documentType = 'assiduite';
+    $html = getHtml($twig, $pagesData, $documentType);
+    generatePdf($html, $documentType);
 }
 
-function generatePdfEmargement($twig, $dompdf)
+function generatePdfEmargement($twig)
 {
     $pagesData = getDataEmargement();
-    $html = getHtml($twig, $pagesData, 'emargement');
-//    echo $html;
-    generatePdf($dompdf, $html, 'landscape');
+    $documentType = 'emargement';
+    $html = getHtml($twig, $pagesData, $documentType);
+    generatePdf($html, $documentType, 'landscape');
 }
 
 $twig = getNewTwigInstance();
-$dompdf = getNewDompdfInstance();
-//generatePdfAssiduite($twig, $dompdf);
-generatePdfEmargement($twig, $dompdf);
+generatePdfEmargement($twig);
+generatePdfAssiduite($twig);
+
+echo '<h1>Success ! The result was written to the ./target directory</h1>';
 
 ?>

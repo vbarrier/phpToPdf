@@ -13,3 +13,6 @@ Icon?
 Thumbs.db
 out
 gen
+
+# generated files
+target
