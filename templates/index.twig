@@ -8,6 +8,9 @@
     {{ include(pageData.headerTemplate) }}
     {{ include(pageData.bodyTemplate) }}
     {{ include(pageData.footerTemplate) }}
+    {% if loop.last == false %}
+        <span class="page_break"></span>
+    {% endif %}
 {% endfor %}
 </body>
 </html>
