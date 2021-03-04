@@ -24,7 +24,6 @@ function getDataAssiduite(): array
         'trainingEndDate' => '16/02/2021',
         'trainingDuration' => 14
     ];
-    $data['traineeName'] = $data['trainee']['firstName'] . ' ' . $data['trainee']['lastName'];
     $data['signatureDate'] = $data['trainingEndDate'];
     return [$data];
 }
@@ -35,7 +34,7 @@ function getDataAssiduite(): array
 
 function getDayNameFromTimestamp(int $timestamp): string
 {
-    $dayName = array('Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam');
+    $dayName = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
     return $dayName[date('w', $timestamp)];
 }
 
@@ -44,6 +43,7 @@ function getDayFromTimestamp(int $timestamp)
     return date('d/m/Y', $timestamp);
 }
 
+// Transform a raw period into details one ready to be displayed
 function getDetailedPeriod(array $period): array
 {
     if (count($period) > 0) {
@@ -58,6 +58,7 @@ function getDetailedPeriod(array $period): array
     }
 }
 
+// Periods must be chronologically ordered and not overlap. One period must start and end the same day
 function validatePeriods(array $periods)
 {
     $previousPeriod = null;
@@ -80,6 +81,7 @@ function validatePeriods(array $periods)
     array_map($validatePeriod, $periods);
 }
 
+// Example trainers. At least one is required, several accepted (up to 7)
 function getTrainers(): array
 {
     return [
@@ -88,6 +90,7 @@ function getTrainers(): array
     ];
 }
 
+// Example raw periods
 function getRawTrainingPeriods(): array
 {
     return [
@@ -103,6 +106,18 @@ function getRawTrainingPeriods(): array
     ];
 }
 
+// Create default periods from array of days in string ISO format (e.g. "2021-02-15")
+function getRawTrainingPeriodsFromIsoDays(array $isoDays): array
+{
+    $rawTrainingPeriods = [];
+    foreach ($isoDays as $isoDay) {
+        array_push($rawTrainingPeriods, ['startDate' => strtotime($isoDay . ' 09:00:00'), 'endDate' => strtotime($isoDay . ' 12:30:00')]);
+        array_push($rawTrainingPeriods, ['startDate' => strtotime($isoDay . ' 13:30:00'), 'endDate' => strtotime($isoDay . ' 17:00:00')]);
+    }
+    return $rawTrainingPeriods;
+}
+
+// Example trainees: at least one, no limit
 function getTrainees(): array
 {
     return [
@@ -116,9 +131,10 @@ function getTrainees(): array
     ];
 }
 
+// Generate combinations from two arrays
 function getCombinations(array $array1, array $array2): array
 {
-    $result = array();
+    $result = [];
     foreach ($array1 as $element1) {
         foreach ($array2 as $element2) {
             array_push($result, [$element1, $element2]);
@@ -134,7 +150,7 @@ function getDataEmargement(): array
 {
     $trainers = getTrainers();
     $nbTraineePerPage = MAX_TRAINEE_PER_PAGE - count($trainers) + 1;
-    $rawTrainingPeriods = getRawTrainingPeriods();
+    $rawTrainingPeriods = getRawTrainingPeriodsFromIsoDays(['2021-02-15', '2021-02-16']);
     validatePeriods($rawTrainingPeriods);
     $trainees = getTrainees();
     $trainingPeriods = array_map('getDetailedPeriod', $rawTrainingPeriods);
@@ -159,7 +175,7 @@ function getDataEmargement(): array
     $traineesChunks = array_chunk($trainees, $nbTraineePerPage);
     $trainingPeriodChunks = array_chunk($trainingPeriods, MAX_PERIOD_PER_PAGE);
     $combinations = getCombinations($trainingPeriodChunks, $traineesChunks);
-    $pages = array();
+    $pages = [];
     foreach ($combinations as $combination) {
         array_push($pages, array_merge([
             'trainingPeriods' => $combination[0],
@@ -173,25 +189,28 @@ function getDataEmargement(): array
 /// Functions
 ///////////////
 
-function getDompdf(): Dompdf
+function getNewDompdfInstance(): Dompdf
 {
     $options = new \Dompdf\Options();
     $options->set('chroot', 'assets');
     return new Dompdf($options);
 }
 
-function getTwig(): \Twig\Environment
+function getNewTwigInstance(): \Twig\Environment
 {
     $loader = new \Twig\Loader\FilesystemLoader('templates');
     $twig = new \Twig\Environment($loader, ['cache' => false]);
     return $twig;
 }
 
+// Document type is used as a class on the HTML body : class="{{ documentType }}-document"
+// Page management is not dynamic : you have to separate the data in pages beforehand
 function getHtml(\Twig\Environment $twig, array $pagesData, string $documentType): string
 {
     return $twig->render('index.twig', ['pagesData' => $pagesData, 'documentType' => $documentType]);
 }
 
+// Accepted orientations : landscape / portrait
 function generatePdf(Dompdf $dompdf, string $html, $orientation = 'portrait')
 {
     $dompdf->loadHtml($html);
@@ -220,8 +239,8 @@ function generatePdfEmargement($twig, $dompdf)
     generatePdf($dompdf, $html, 'landscape');
 }
 
-$twig = getTwig();
-$dompdf = getDompdf();
+$twig = getNewTwigInstance();
+$dompdf = getNewDompdfInstance();
 //generatePdfAssiduite($twig, $dompdf);
 generatePdfEmargement($twig, $dompdf);
 
