@@ -39,6 +39,11 @@ function getDayNameFromTimestamp(int $timestamp): string
     return $dayName[date('w', $timestamp)];
 }
 
+function getDayFromTimestamp(int $timestamp)
+{
+    return date('d/m/Y', $timestamp);
+}
+
 function getDetailedPeriod(array $period): array
 {
     if (count($period) > 0) {
@@ -75,54 +80,76 @@ function validatePeriods(array $periods)
     array_map($validatePeriod, $periods);
 }
 
-function getDataEmargement(): array
+function getTrainers(): array
 {
-    $MAX_PERIOD_PER_PAGE = 8;
-    $MAX_TRAINEE_PER_PAGE = 7; // Be careful, this is not dynamic !
-    $trainers = [
+    return [
         ['firstName' => 'Albert', 'lastName' => 'Einstein'],
 //        ['firstName' => 'Robert', 'lastName' => 'Hue']
     ];
-    $nbTraineePerPage = $MAX_TRAINEE_PER_PAGE - count($trainers) + 1; // Be careful, this is not dynamic !
-    $rawTrainingPeriods = [
+}
+
+function getRawTrainingPeriods(): array
+{
+    return [
         ['startDate' => strtotime('2021-02-15 09:00:00'), 'endDate' => strtotime('2021-02-15 12:30:00')],
         ['startDate' => strtotime('2021-02-15 13:30:00'), 'endDate' => strtotime('2021-02-15 17:00:00')],
         ['startDate' => strtotime('2021-02-16 09:00:00'), 'endDate' => strtotime('2021-02-16 13:30:00')],
         ['startDate' => strtotime('2021-02-16 13:30:00'), 'endDate' => strtotime('2021-02-16 16:00:00')],
     ];
-    validatePeriods($rawTrainingPeriods);
-    $trainees = [
+}
+
+function getTrainees(): array
+{
+    return [
         ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
         ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
         ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
         ['firstName' => 'Kesley', 'lastName' => 'George'],
     ];
+}
+
+define('MAX_PERIOD_PER_PAGE', 8);
+define('MAX_TRAINEE_PER_PAGE', 7);
+
+function getDataEmargement(): array
+{
+    $trainers = getTrainers();
+    $nbTraineePerPage = MAX_TRAINEE_PER_PAGE - count($trainers) + 1;
+    $rawTrainingPeriods = getRawTrainingPeriods();
+    validatePeriods($rawTrainingPeriods);
+    $trainees = getTrainees();
     $trainingPeriods = array_map('getDetailedPeriod', $rawTrainingPeriods);
-    $trainingDuration = array_sum(array_column($trainingPeriods, 'duration'));
-    $getDayFromTimestamp = function (int $timestamp) {
-        return date('d/m/Y', $timestamp);
-    };
     $timestamps = array_column($rawTrainingPeriods, 'startDate');
     sort($timestamps, SORT_NUMERIC);
-    $uniqueDays = array_unique(array_map($getDayFromTimestamp, $timestamps));
+    $uniqueDays = array_unique(array_map('getDayFromTimestamp', $timestamps));
+    $commonData = [
+        'headerTemplate' => 'header.twig',
+        'footerTemplate' => 'footer.twig',
+        'bodyTemplate' => 'doc-emargement.twig',
+        'documentTitle' => "Feuille d'émargement",
+        'trainingName' => 'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
+        'trainingStartDate' => reset($uniqueDays),
+        'trainingEndDate' => end($uniqueDays),
+        'trainingDays' => count($uniqueDays),
+        'trainingDuration' => array_sum(array_column($trainingPeriods, 'duration')),
+        'trainingLocation' => 'A distance',
+        'trainers' => $trainers,
+        'nbPeriodPerPage' => MAX_PERIOD_PER_PAGE,
+        'nbTraineePerPage' => $nbTraineePerPage
+    ];
     return [
-        [
-            'headerTemplate' => 'header.twig',
-            'footerTemplate' => 'footer.twig',
-            'bodyTemplate' => 'doc-emargement.twig',
-            'documentTitle' => "Feuille d'émargement",
-            'trainingName' => 'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
-            'trainingStartDate' => reset($uniqueDays),
-            'trainingEndDate' => end($uniqueDays),
-            'trainingDays' => count($uniqueDays),
-            'trainingDuration' => $trainingDuration,
-            'trainingLocation' => 'A distance',
+        array_merge([
             'trainingPeriods' => $trainingPeriods,
             'trainees' => $trainees,
-            'trainers' => $trainers,
-            'nbPeriodPerPage' => $MAX_PERIOD_PER_PAGE,
-            'nbTraineePerPage' => $nbTraineePerPage
-        ]
+        ], $commonData),
+        array_merge([
+            'trainingPeriods' => $trainingPeriods,
+            'trainees' => $trainees,
+        ], $commonData),
+        array_merge([
+            'trainingPeriods' => $trainingPeriods,
+            'trainees' => $trainees,
+        ], $commonData),
     ];
 }
 
@@ -161,7 +188,6 @@ function generatePdf(Dompdf $dompdf, string $html, $orientation = 'portrait')
 /// Main
 ///////////////
 
-
 function generatePdfAssiduite($twig, $dompdf)
 {
     $pagesData = getDataAssiduite();
@@ -174,7 +200,7 @@ function generatePdfEmargement($twig, $dompdf)
 {
     $pagesData = getDataEmargement();
     $html = getHtml($twig, $pagesData, 'emargement');
-    //    echo $html;
+//    echo $html;
     generatePdf($dompdf, $html, 'landscape');
 }
 
