@@ -74,8 +74,13 @@ function validatePeriods(array $periods)
 
 function getDataEmargement(): array
 {
-    $nbPeriodPerPage = 8; // Be careful, this is not dynamic !
-    $nbTraineePerPage = 7; // Be careful, this is not dynamic !
+    $MAX_PERIOD_PER_PAGE = 8;
+    $MAX_TRAINEE_PER_PAGE = 7; // Be careful, this is not dynamic !
+    $trainers = [
+        ['firstName' => 'Albert', 'lastName' => 'Einstein'],
+//        ['firstName' => 'Robert', 'lastName' => 'Hue']
+    ];
+    $nbTraineePerPage = $MAX_TRAINEE_PER_PAGE - count($trainers) + 1; // Be careful, this is not dynamic !
     $rawTrainingPeriods = [
         ['startDate' => strtotime('2021-02-15 09:00:00'), 'endDate' => strtotime('2021-02-15 12:30:00')],
         ['startDate' => strtotime('2021-02-15 13:30:00'), 'endDate' => strtotime('2021-02-15 17:00:00')],
@@ -107,8 +112,8 @@ function getDataEmargement(): array
         'trainingLocation' => 'A distance',
         'trainingPeriods' => $trainingPeriods,
         'trainees' => $trainees,
-        'trainer' => ['firstName' => 'Albert', 'lastName' => 'Einstein'],
-        'nbPeriodPerPage' => $nbPeriodPerPage,
+        'trainers' => $trainers,
+        'nbPeriodPerPage' => $MAX_PERIOD_PER_PAGE,
         'nbTraineePerPage' => $nbTraineePerPage
     ];
 }

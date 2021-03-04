@@ -60,6 +60,7 @@
     </tr>
     </tbody>
     <tbody>
+    {% for trainer in trainers %}
     <tr>
         <th class="light text-align-left font-weight-normal">
             {{ trainer['firstName'] }} {{ trainer['lastName'] }}
@@ -68,5 +69,6 @@
             <td></td>
         {% endfor %}
     </tr>
+    {% endfor %}
     </tbody>
 </table>
