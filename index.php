@@ -95,6 +95,11 @@ function getRawTrainingPeriods(): array
         ['startDate' => strtotime('2021-02-15 13:30:00'), 'endDate' => strtotime('2021-02-15 17:00:00')],
         ['startDate' => strtotime('2021-02-16 09:00:00'), 'endDate' => strtotime('2021-02-16 13:30:00')],
         ['startDate' => strtotime('2021-02-16 13:30:00'), 'endDate' => strtotime('2021-02-16 16:00:00')],
+        ['startDate' => strtotime('2021-02-17 09:00:00'), 'endDate' => strtotime('2021-02-17 12:30:00')],
+        ['startDate' => strtotime('2021-02-17 13:30:00'), 'endDate' => strtotime('2021-02-17 17:00:00')],
+        ['startDate' => strtotime('2021-02-18 09:00:00'), 'endDate' => strtotime('2021-02-18 13:30:00')],
+        ['startDate' => strtotime('2021-02-18 13:30:00'), 'endDate' => strtotime('2021-02-18 16:00:00')],
+        ['startDate' => strtotime('2021-02-19 13:30:00'), 'endDate' => strtotime('2021-02-19 16:00:00')],
     ];
 }
 
@@ -104,8 +109,22 @@ function getTrainees(): array
         ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
         ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
         ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
+        ['firstName' => 'Kesley', 'lastName' => 'George'],        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
+        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
+        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
         ['firstName' => 'Kesley', 'lastName' => 'George'],
     ];
+}
+
+function getCombinations(array $array1, array $array2): array
+{
+    $result = array();
+    foreach ($array1 as $element1) {
+        foreach ($array2 as $element2) {
+            array_push($result, [$element1, $element2]);
+        }
+    }
+    return $result;
 }
 
 define('MAX_PERIOD_PER_PAGE', 8);
@@ -137,20 +156,17 @@ function getDataEmargement(): array
         'nbPeriodPerPage' => MAX_PERIOD_PER_PAGE,
         'nbTraineePerPage' => $nbTraineePerPage
     ];
-    return [
-        array_merge([
-            'trainingPeriods' => $trainingPeriods,
-            'trainees' => $trainees,
-        ], $commonData),
-        array_merge([
-            'trainingPeriods' => $trainingPeriods,
-            'trainees' => $trainees,
-        ], $commonData),
-        array_merge([
-            'trainingPeriods' => $trainingPeriods,
-            'trainees' => $trainees,
-        ], $commonData),
-    ];
+    $traineesChunks = array_chunk($trainees, $nbTraineePerPage);
+    $trainingPeriodChunks = array_chunk($trainingPeriods, MAX_PERIOD_PER_PAGE);
+    $combinations = getCombinations($trainingPeriodChunks, $traineesChunks);
+    $pages = array();
+    foreach ($combinations as $combination) {
+        array_push($pages, array_merge([
+            'trainingPeriods' => $combination[0],
+            'trainees' => $combination[1],
+        ], $commonData));
+    }
+    return $pages;
 }
 
 ///////////////
