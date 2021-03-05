@@ -225,6 +225,7 @@ function getNewTwigInstance(): \Twig\Environment
 {
     $loader = new \Twig\Loader\FilesystemLoader('templates');
     $twig = new \Twig\Environment($loader, ['cache' => false]);
+//    $twig->addFilter(new \Twig\TwigFilter('strlen', function ($string) { return strlen($string);  }));
     return $twig;
 }
 
