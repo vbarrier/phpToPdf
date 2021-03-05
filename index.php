@@ -10,15 +10,6 @@ use Dompdf\Dompdf;
 ///////////////
 
 // TODO remove
-function getDummyTraining(): array {
-    return [
-        'days'=>['2021-02-15', '2021-02-16'],
-        'name'=>'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
-        'location'=>'À distance'
-    ];
-}
-
-// TODO remove
 function getDummyDataAssiduite(): array
 {
     $dummyData = [
@@ -30,6 +21,15 @@ function getDummyDataAssiduite(): array
     ];
     $dummyData['signatureDate'] = $dummyData['trainingEndDate'];
     return $dummyData;
+}
+
+// TODO remove
+function getDummyTraining(): array {
+    return [
+        'days'=>['2021-02-15', '2021-02-16'],
+        'name'=>'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
+        'location'=>'À distance'
+    ];
 }
 
 // TODO remove
