@@ -5,6 +5,10 @@ require_once 'lib/twig/autoload.inc.php';
 
 use Dompdf\Dompdf;
 
+define('DATE_FORMAT_LONG', 'd/m/Y');
+define('DATE_FORMAT_MEDIUM', 'd/m/y');
+define('HOUR_FORMAT', 'H:i');
+
 ///////////////
 /// Dummy data
 ///////////////
@@ -14,10 +18,12 @@ function getDummyDataAssiduite(): array
 {
     $dummyData = [
         'trainee' => ['firstName' => 'Jane', 'lastName' => 'Doe'],
-        'trainingName' => 'Professionnel Scrum Certifié',
-        'trainingStartDate' => '15/02/2021',
-        'trainingEndDate' => '16/02/2021',
-        'trainingDuration' => 14
+        'training' => [
+            'name' => "Professionnel Scrum Certifié agilité à l'échelle - SAFe PO/PM",
+            'startDate' => strtotime('2021-02-15'),
+            'endDate' => strtotime('2021-02-16'),
+            'duration' => 14
+        ]
     ];
     $dummyData['signatureDate'] = $dummyData['trainingEndDate'];
     return $dummyData;
@@ -26,9 +32,9 @@ function getDummyDataAssiduite(): array
 // TODO remove
 function getDummyTraining(): array {
     return [
-        'days'=>['2021-02-15', '2021-02-16'],
-        'name'=>'Formation professionnel Scrum Certifié : Scrum Master / Product Owner',
-        'location'=>'À distance'
+        'days' => ['2021-03-08', '2021-03-09'],
+        'name' => "Professionnel Scrum Certifié agilité à l'échelle - SAFe PO/PM",
+        'location' => 'À distance',
     ];
 }
 
@@ -37,8 +43,7 @@ function getDummyTraining(): array {
 function getDummyTrainers(): array
 {
     return [
-        ['firstName' => 'Albert', 'lastName' => 'Einstein'],
-//        ['firstName' => 'Roberto', 'lastName' => 'Doe']
+        ['firstName' => 'Albert', 'lastName' => 'Einstein']
     ];
 }
 
@@ -65,14 +70,20 @@ function getDummyTrainees(): array
 function getDataAssiduite(): array
 {
     $dummyDataAssiduite = getDummyDataAssiduite(); // TODO plug in real data
-    $data = array_merge($dummyDataAssiduite, [
+    $training = $dummyDataAssiduite['training']; // TODO plug in real data
+    $data = [
+        'trainee' => $dummyDataAssiduite['trainee'],
+        'trainingName' => $training['name'],
+        'trainingStartDate' => date(DATE_FORMAT_LONG, $training['startDate']),
+        'trainingEndDate' => date(DATE_FORMAT_LONG, $training['endDate']),
+        'trainingDuration' => $training['duration'],
         'headerTemplate' => 'header.twig',
         'footerTemplate' => 'footer.twig',
         'bodyTemplate' => 'doc-assiduite.twig',
         'documentTitle' => "Attestation d'assiduité de formation",
         'ofUserName' => 'Vincent BARRIER',
         'ofName' => 'Kagilum'
-    ]);
+    ];
     return [$data];
 }
 
@@ -88,7 +99,7 @@ function getDayNameFromTimestamp(int $timestamp): string
 
 function getDayFromTimestamp(int $timestamp)
 {
-    return date('d/m/Y', $timestamp);
+    return date(DATE_FORMAT_LONG, $timestamp);
 }
 
 // Transform a raw period into details one ready to be displayed
@@ -96,9 +107,9 @@ function getDetailedPeriod(array $period): array
 {
     if (count($period) > 0) {
         return [
-            'date' => getDayNameFromTimestamp($period['startDate']) . ' ' . date('d/m/y', $period['startDate']),
-            'startHour' => date('H:i', $period['startDate']),
-            'endHour' => date('H:i', $period['endDate']),
+            'date' => getDayNameFromTimestamp($period['startDate']) . ' ' . date(DATE_FORMAT_MEDIUM, $period['startDate']),
+            'startHour' => date(HOUR_FORMAT, $period['startDate']),
+            'endHour' => date(HOUR_FORMAT, $period['endDate']),
             'duration' => ($period['endDate'] - $period['startDate']) / 3600
         ];
     } else {
@@ -119,8 +130,8 @@ function validatePeriods(array $periods)
         if ($endTimestamp <= $startTimestamp) {
             throw new Exception('Error, a training period must end after it starts (start: ' . $startTimestamp . ', end: ' . $endTimestamp);
         }
-        $startDate = date('d/m/Y', $startTimestamp);
-        $endDate = date('d/m/Y', $endTimestamp);
+        $startDate = date(DATE_FORMAT_LONG, $startTimestamp);
+        $endDate = date(DATE_FORMAT_LONG, $endTimestamp);
         if ($startDate != $endDate) {
             throw new Exception('Error, a training period must start and end the same day (start: ' . $startDate . ', end: ' . $endDate);
         }
