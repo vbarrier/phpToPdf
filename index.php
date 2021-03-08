@@ -14,23 +14,37 @@ define('HOUR_FORMAT', 'H:i');
 ///////////////
 
 // TODO remove
-function getDummyDataAssiduite(): array
+function getDummyDataFinFormation(): array
 {
     $dummyData = [
-        'trainee' => ['firstName' => 'Jane', 'lastName' => 'Doe'],
+        'trainee' => getDummyTrainees()[0],
+        'trainers' => getDummyTrainers(),
         'training' => [
+            'remote' => false,
             'name' => "Professionnel Scrum Certifié agilité à l'échelle - SAFe PO/PM",
-            'startDate' => strtotime('2021-02-15'),
-            'endDate' => strtotime('2021-02-16'),
-            'duration' => 14
+            'startDate' => date(DATE_FORMAT_LONG, strtotime('2021-02-15')),
+            'endDate' => date(DATE_FORMAT_LONG, strtotime('2021-02-16')),
+            'duration' => 14,
+            'location' => 'Paris',
+            'objectives' => [
+                "Savoir identifier des User Stories fonctionnelles à partir des besoins utilisateurs",
+                "Connaître les principes, méthodes et techniques Agiles",
+                "Définir les critères d’acceptation d’une User Story",
+                "Savoir constituer un Backlog de produit utilisable",
+                "Planifier la production de valeur des incréments au cours des Sprints",
+                "Acquérir les compétences pour gérer et motiver les équipes",
+                "Aider à la collaboration entre acteurs du projet",
+                "Faciliter le travail de l’équipe et du PO",
+                "Savoir animer les différentes cérémonies Scrum",
+            ]
         ]
     ];
-    $dummyData['signatureDate'] = $dummyData['trainingEndDate'];
     return $dummyData;
 }
 
 // TODO remove
-function getDummyTraining(): array {
+function getDummyTraining(): array
+{
     return [
         'days' => ['2021-03-08', '2021-03-09'],
         'name' => "Professionnel Scrum Certifié agilité à l'échelle - SAFe PO/PM",
@@ -43,7 +57,7 @@ function getDummyTraining(): array {
 function getDummyTrainers(): array
 {
     return [
-        ['firstName' => 'Albert', 'lastName' => 'Einstein']
+        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
     ];
 }
 
@@ -52,38 +66,52 @@ function getDummyTrainers(): array
 function getDummyTrainees(): array
 {
     return [
-        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
-        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
-        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
-        ['firstName' => 'Kesley', 'lastName' => 'George'],
-        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
-        ['firstName' => 'Vincent', 'lastName' => 'Barrier'],
-        ['firstName' => 'Gladys', 'lastName' => 'Lutiku'],
-        ['firstName' => 'Kesley', 'lastName' => 'George'],
+        ['firstName' => 'John', 'lastName' => 'Doe'],
+        ['firstName' => 'NEKTARIA', 'lastName' => 'PAPASPYROPOULOU'],
+        ['firstName' => 'WILLIAM', 'lastName' => 'COLLART DUTILLEUL'],
+        ['firstName' => 'STEPHANIE FAHMY', 'lastName' => 'ZAKHARY MIKHAIL'],
+        ['firstName' => 'NHUT HANH', 'lastName' => 'TRAN-CUCCIA'],
+        ['firstName' => 'Virginie', 'lastName' => 'Lemmel-renouard'],
+        ['firstName' => 'ALEJANDRO', 'lastName' => 'PASCUAL OLIVER'],
+        ['firstName' => 'Alexander', 'lastName' => 'Coenegrachts'],
     ];
 }
 
+// TODO remove
+function getDummyOf(): array
+{
+    return [
+        'name' => 'Kagilum',
+        'number' => '73310646031',
+        'region' => 'Occitanie',
+        'representative' => ['firstName' => 'Vincent', 'lastName' => 'Barrier', 'status' => 'Président'],
+    ];
+}
+
+function getFooterText(): string
+{
+    return 'Kagilum SAS – Pôle formations Wensei – Capital social 9901€ – Agrément de formation 73310646031 – Siège social 8 impasse bonnet 31500 Toulouse – Tel 09.52.91.10.10 – Email formations@wensei.com – RCS Toulouse B 532222924 – TVA FR90532222924 – Code APE 6201Z';
+}
+
 ///////////////
-/// Data generation Assiduite
+/// Data generation Fin Formation
 ///////////////
 
-function getDataAssiduite(): array
+function getDataFinFormation(): array
 {
-    $dummyDataAssiduite = getDummyDataAssiduite(); // TODO plug in real data
-    $training = $dummyDataAssiduite['training']; // TODO plug in real data
+    $dummyData = getDummyDataFinFormation(); // TODO plug in real data
     $data = [
-        'trainee' => $dummyDataAssiduite['trainee'],
-        'trainingName' => $training['name'],
-        'trainingStartDate' => date(DATE_FORMAT_LONG, $training['startDate']),
-        'trainingEndDate' => date(DATE_FORMAT_LONG, $training['endDate']),
-        'trainingDuration' => $training['duration'],
+        'trainee' => $dummyData['trainee'], // TODO plug in real data
+        'trainers' => $dummyData['trainers'], // TODO plug in real data
+        'training' => $dummyData['training'], // TODO plug in real data
         'headerTemplate' => 'header.twig',
         'footerTemplate' => 'footer.twig',
-        'bodyTemplate' => 'doc-assiduite.twig',
-        'documentTitle' => "Attestation d'assiduité de formation",
-        'ofUserName' => 'Vincent BARRIER',
-        'ofName' => 'Kagilum'
+        'bodyTemplate' => 'doc-fin-formation.twig',
+        'documentTitle' => "Attestation individuelle de fin de formation",
+        'of' => getDummyOf(),
+
     ];
+    $data['signatureDate'] = $data['training']['endDate']; // TODO change
     return [$data];
 }
 
@@ -187,7 +215,7 @@ function getDataEmargement(): array
         'bodyTemplate' => 'doc-emargement.twig',
         'documentTitle' => "Feuille d'émargement",
         'trainingName' => $training['name'],
-        'trainingLocation' =>  $training['location'],
+        'trainingLocation' => $training['location'],
         'trainingStartDate' => reset($uniqueDays),
         'trainingEndDate' => end($uniqueDays),
         'trainingDays' => count($uniqueDays),
@@ -225,7 +253,9 @@ function getNewTwigInstance(): \Twig\Environment
 {
     $loader = new \Twig\Loader\FilesystemLoader('templates');
     $twig = new \Twig\Environment($loader, ['cache' => false]);
-//    $twig->addFilter(new \Twig\TwigFilter('strlen', function ($string) { return strlen($string);  }));
+    $twig->addFilter(new \Twig\TwigFilter('fullName', function ($person) {
+        return $person != null ? $person['firstName'] . ' ' . $person['lastName'] : '';
+    }));
     return $twig;
 }
 
@@ -233,7 +263,11 @@ function getNewTwigInstance(): \Twig\Environment
 // Page management is not dynamic : you have to separate the data in pages beforehand
 function getHtml(\Twig\Environment $twig, array $pagesData, string $documentType): string
 {
-    return $twig->render('index.twig', ['pagesData' => $pagesData, 'documentType' => $documentType]);
+    return $twig->render('index.twig', [
+        'pagesData' => $pagesData,
+        'documentType' => $documentType,
+        'footerText' => getFooterText(),
+    ]);
 }
 
 // Accepted orientations : landscape / portrait
@@ -251,12 +285,13 @@ function generatePdf(string $html, string $documentType, $orientation = 'portrai
 /// Main
 ///////////////
 
-function generatePdfAssiduite($twig)
+function generatePdfFinDeFormation($twig)
 {
-    $pagesData = getDataAssiduite();
-    $documentType = 'assiduite';
+    $pagesData = getDataFinFormation();
+    $documentType = 'fin-formation';
     $html = getHtml($twig, $pagesData, $documentType);
     generatePdf($html, $documentType);
+//    echo $html;
 }
 
 function generatePdfEmargement($twig)
@@ -265,11 +300,12 @@ function generatePdfEmargement($twig)
     $documentType = 'emargement';
     $html = getHtml($twig, $pagesData, $documentType);
     generatePdf($html, $documentType, 'landscape');
+//    echo $html;
 }
 
 $twig = getNewTwigInstance();
 generatePdfEmargement($twig);
-generatePdfAssiduite($twig);
+generatePdfFinDeFormation($twig);
 
 echo '<h1>Success ! The result was written to the ./target directory</h1>';
 

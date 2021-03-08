@@ -1,0 +1,31 @@
+{{ include('title.twig') }}
+<p>
+    Je soussigné <span class="dynamic-data">{{ pageData.of['representative'] | fullName }}</span>,
+    représentant légal de l’organisme de formation <span class="dynamic-data">{{ pageData.of['name'] }}</span>,
+    enregistré sous le numéro de déclaration d’activité <span class="dynamic-data">{{ pageData.of['number'] }}</span> auprès de la DIRECCTE (Direction régionale des entreprises, de la concurrence, de la consommation, du travail et de l’emploi)
+    de la région <span class="dynamic-data">{{ pageData.of['region'] }}</span>
+    atteste que <span class="dynamic-data">{{ pageData.trainee | fullName }}</span>
+    a suivi la formation intitulée
+    <span class="dynamic-data">{{ pageData.training['name'] }} : </span>
+</p>
+<ul>
+    <li>sur la période période du <span class="dynamic-data">{{ pageData.training['startDate'] }}</span> au <span class="dynamic-data">{{ pageData.training['endDate'] }}</span>,</li>
+    <li>pour une durée de <span class="dynamic-data">{{ pageData.training['duration'] }}</span> heures,</li>
+    <li>
+    {% if pageData.training['remote'] %}
+        en <span class="dynamic-data">distanciel</span>,
+    {% else %}
+        en présentiel à <span class="dynamic-data">{{ pageData.training['location'] }},</span>
+    {% endif %}
+    </li>
+    <li>animée par <span class="dynamic-data">{{ pageData.trainers | map((trainer) => trainer | fullName) | join(', ') }},</span></li>
+    <li>portant sur les objectifs pédagogiques suivants :
+        <ul>
+            {% for objectif in pageData.training['objectives'] %}
+                <li>{{ objectif }}{{ loop.last ? '.' : ',' }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
+{{ include('signature.twig') }}

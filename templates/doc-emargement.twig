@@ -41,7 +41,7 @@
     {% for j in range(0, pageData.nbTraineePerPage - 1) %}
         <tr>
             <th class="light name-column text-align-left font-weight-normal {{ (pageData.trainees[j]['firstName']|length + pageData.trainees[j]['lastName']|length)  > 15 ? 'long-name' : '' }}">
-                {{ pageData.trainees[j]['firstName'] }} {{ pageData.trainees[j]['lastName'] }}
+                {{ pageData.trainees[j] | fullName }}
             </th>
             {% for i in range(0, pageData.nbPeriodPerPage - 1) %}
                 <td></td>
@@ -63,7 +63,7 @@
     {% for trainer in pageData.trainers %}
         <tr>
             <th class="light name-column text-align-left font-weight-normal {{ (trainer['firstName']|length + trainer['lastName']|length)  > 15 ? 'long-name' : '' }}">
-                {{ trainer['firstName'] }} {{ trainer['lastName'] }}
+                {{ trainer | fullName }}
             </th>
             {% for i in range(0, pageData.nbPeriodPerPage - 1) %}
                 <td></td>

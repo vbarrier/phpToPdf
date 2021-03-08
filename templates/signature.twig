@@ -2,10 +2,7 @@
     <p>
         L’organisme de formation<br/>
         Le <span class="dynamic-data">{{ pageData.signatureDate }}</span><br/>
-        <span class="dynamic-data">{{ pageData.ofUserName }}</span>
+        <span class="dynamic-data">{{ pageData.of['representative'] | fullName }}, {{ pageData.of['representative']['status'] }}</span>
     </p>
-
-    <p>
-        Cachet Signature
-    </p>
+    <img src="assets/images/signature.png"/>
 </div>
