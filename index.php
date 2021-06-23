@@ -81,6 +81,7 @@ function getDummyTrainers(): array
 function getDummyTrainees(): array
 {
     return [
+//        ['firstName' => 'John', 'lastName' => 'DOE', 'signatureFile' => 'signature1.png'],
         ['firstName' => 'John', 'lastName' => 'DOE'],
     ];
 }
