@@ -46,9 +46,17 @@ function getDummyDataFinFormation(): array
 function getDummyTraining(): array
 {
     return [
-        'days' => ['2021-03-08', '2021-03-09'],
-        'name' => "Professionnel Scrum Certifié agilité à l'échelle - SAFe PO/PM",
+        'days' => ['2021-06-28', '2021-06-29'],
+//        'name' => "Professionnel Scrum Certifié agilité à l'échelle - Leading SAFe",
+//        'name' => "Facilitation Graphique",
+        'name' => "Formation Professionnel Scrum Certifié",
+//        'name' => "Formation Professionnel Scrum Certifié SAFe Scrum Master",
+//        'name' => "Scrum Master Avancé",
         'location' => 'À distance',
+//        'location' => 'Paris',
+//        'location' => 'Toulouse',
+//        'location' => 'Bordeaux',
+//        'location' => 'Nantes',
     ];
 }
 
@@ -57,7 +65,14 @@ function getDummyTraining(): array
 function getDummyTrainers(): array
 {
     return [
-        ['firstName' => 'Nicolas', 'lastName' => 'Noullet'],
+//        ['firstName' => 'Benjamin', 'lastName' => 'CABANNE']
+        ['firstName' => 'Marie', 'lastName' => 'FEDERICI']
+//        ['firstName' => 'Gaël', 'lastName' => 'MOUSSAOUI']
+//        ['firstName' => 'Valentine', 'lastName' => 'OGIER-GALLAND']
+//        ['firstName' => 'Patrice', 'lastName' => 'FORNALIK']
+//        ['firstName' => 'Vincent', 'lastName' => 'BARRIER']
+//        ['firstName' => 'Cédric', 'lastName' => 'BODIN']
+//        ['firstName' => 'Nicolas', 'lastName' => 'NOULLET']
     ];
 }
 
@@ -66,14 +81,7 @@ function getDummyTrainers(): array
 function getDummyTrainees(): array
 {
     return [
-        ['firstName' => 'John', 'lastName' => 'Doe'],
-        ['firstName' => 'NEKTARIA', 'lastName' => 'PAPASPYROPOULOU'],
-        ['firstName' => 'WILLIAM', 'lastName' => 'COLLART DUTILLEUL'],
-        ['firstName' => 'STEPHANIE FAHMY', 'lastName' => 'ZAKHARY MIKHAIL'],
-        ['firstName' => 'NHUT HANH', 'lastName' => 'TRAN-CUCCIA'],
-        ['firstName' => 'Virginie', 'lastName' => 'Lemmel-renouard'],
-        ['firstName' => 'ALEJANDRO', 'lastName' => 'PASCUAL OLIVER'],
-        ['firstName' => 'Alexander', 'lastName' => 'Coenegrachts'],
+        ['firstName' => 'John', 'lastName' => 'DOE'],
     ];
 }
 
@@ -305,7 +313,7 @@ function generatePdfEmargement($twig)
 
 $twig = getNewTwigInstance();
 generatePdfEmargement($twig);
-generatePdfFinDeFormation($twig);
+//generatePdfFinDeFormation($twig);
 
 echo '<h1>Success ! The result was written to the ./target directory</h1>';
 
