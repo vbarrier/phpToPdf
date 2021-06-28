@@ -46,10 +46,10 @@ function getDummyDataFinFormation(): array
 function getDummyTraining(): array
 {
     return [
-        'days' => ['2021-06-28', '2021-06-29'],
+        'days' => ['2021-07-07', '2021-07-08'],
 //        'name' => "Professionnel Scrum Certifié agilité à l'échelle - Leading SAFe",
-//        'name' => "Facilitation Graphique",
-        'name' => "Formation Professionnel Scrum Certifié",
+        'name' => "Facilitation Graphique",
+//        'name' => "Formation Professionnel Scrum Certifié",
 //        'name' => "Formation Professionnel Scrum Certifié SAFe Scrum Master",
 //        'name' => "Scrum Master Avancé",
         'location' => 'À distance',
@@ -66,7 +66,8 @@ function getDummyTrainers(): array
 {
     return [
 //        ['firstName' => 'Benjamin', 'lastName' => 'CABANNE']
-        ['firstName' => 'Marie', 'lastName' => 'FEDERICI']
+//        ['firstName' => 'Marie', 'lastName' => 'FEDERICI']
+        ['firstName' => 'Aurélien', 'lastName' => 'MORVANT']
 //        ['firstName' => 'Gaël', 'lastName' => 'MOUSSAOUI']
 //        ['firstName' => 'Valentine', 'lastName' => 'OGIER-GALLAND']
 //        ['firstName' => 'Patrice', 'lastName' => 'FORNALIK']

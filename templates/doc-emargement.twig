@@ -44,7 +44,7 @@
                 {{ pageData.trainees[j] | fullName }}
             </th>
             {% for i in range(0, pageData.nbPeriodPerPage - 1) %}
-                <td class="signature-cell">
+                <td class="{{ pageData.trainees[j].signatureFile and pageData.trainingPeriods|length > i ? 'auto-signature-cell' : 'manual-signature-cell' }}">
                     {% if pageData.trainees[j].signatureFile and pageData.trainingPeriods|length > i %}
                         <img src="assets/images/{{ pageData.trainees[j].signatureFile }}"/>
                     {% endif %}
